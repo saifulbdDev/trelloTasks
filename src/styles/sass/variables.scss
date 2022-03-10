@@ -1,0 +1,44 @@
+$bg: #ebecf0;
+$offsetWidth: 5px; 
+$white: #fff;
+$black: #000;
+$green: lightgreen;
+$orange: orange;
+$blue: #1010ff;
+$lightgrey: #050505;
+$text:#172b4d;
+$color-card-todo: #56B2E5;
+$color-card-inprogress: #f76176;
+$color-card-done: #485e76;
+$color-column-done: #bac2cb;
+$color-column-header-done: #0b2542;
+$color-column-inprogress: #F4C2C3;
+$color-column-header-inprogress: #E12A5A;
+$color-column-todo: #BEE3F6;
+$color-column-header-todo: #1992DB;
+
+$media: (xs, ph, sm, md, lg, xl);
+
+// Extra small / ref: iPhone 6 (375px - 414px)
+$screen-xs-min: 0 !default;
+$screen-xs-max: 480px !default;
+
+// Big mobile - phablet / ref: iPhone 8 plus (481px - 767px)
+$screen-ph-min: 481px !default;
+$screen-ph-max: 767px !default;
+
+// Small screen / ref: iPad portrait (768px)
+$screen-sm-min: 768px !default;
+$screen-sm-max: 900px !default;
+
+// Medium screen / ref: iPad landscape(1024px)
+$screen-md-min: 901px !default;
+$screen-md-max: 1024px !default;
+
+// Large screen
+$screen-lg-min: 1025px !default;
+$screen-lg-max: 1280px !default;
+
+// Extra large screen
+$screen-xl-min: 1281px !default;
+$screen-xl-max: 100% !default;

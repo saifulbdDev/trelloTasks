@@ -1,0 +1,10 @@
+@import "../../styles/sass/variables.scss";
+@import "../../styles/sass/mixins.scss";
+
+.Board {  
+    display: grid;
+    grid-auto-columns: 272px;
+    grid-auto-flow: column;
+    grid-gap: 8px;
+    // overflow: scroll;
+}

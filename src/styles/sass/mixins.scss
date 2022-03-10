@@ -1,0 +1,62 @@
+@mixin button(){
+	background: transparent; 
+	font-size: 1.2em;
+	float: right;
+	outline: none;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+// Box shadow
+
+@mixin box-shadow($shadow: null) {
+	@if ($shadow) {
+		-webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+		box-shadow: $shadow;
+	} @else {
+		-webkit-box-shadow: $box-shadow-default;
+		box-shadow: $box-shadow-default;
+	}
+}
+
+
+@mixin respondto($media...) {
+	@each $screensize in $media {
+		@if $screensize == xs {
+			@media (max-width: $screen-xs-max) {
+				@content;
+			}
+		}
+		@else if $screensize == ph {
+			@media (min-width: $screen-ph-min) and (max-width: $screen-ph-max) {
+				@content;
+			}
+		}
+		@else if $screensize == sm {
+			@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+				@content;
+			}
+		}
+		@else if $screensize == md {
+			@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+				@content;
+			}
+		}
+		@else if $screensize == lg {
+			@media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+				@content;
+			}
+		}
+		@else if $screensize == xl {
+			@media (min-width: $screen-xl-min) {
+				@content;
+			}
+		}
+		@else if $screensize == xl-min {
+			@media (width: $screen-xl-min) {
+				@content;
+			}
+		}
+	}
+}

@@ -1,0 +1,51 @@
+@import "../../styles/sass/variables.scss";
+@import "../../styles/sass/mixins.scss";
+
+.card {
+  max-width: 100%;
+  margin: 5 * $offsetWidth auto;
+  color: $black;
+  text-align: center;
+  position: relative;
+  background-color: $white;
+  @include box-shadow(
+    0 $offsetWidth 3 * $offsetWidth -$offsetWidth rgba($lightgrey, 0.1)
+  );
+}
+
+.Card:hover {
+  cursor: pointer;
+}
+
+.isDragged, .isDragged:hover {
+  cursor: move;
+  border: 1px dashed grey;
+}
+
+.card-header {
+  outline: 1px solid $blue;
+}
+
+.card-body {
+  padding: 2 * $offsetWidth;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.button-remove {
+  @include button();
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+textarea {
+  overflow: hidden;
+  width: 80%;
+}
