@@ -1,5 +1,5 @@
 import * as constants from "./actionTypes";
-import { DATA } from "../../common/data";
+import { v4 as uuidv4 } from 'uuid';
 import { read_cookie } from "sfcookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
@@ -39,7 +39,29 @@ export const addCard = (
   };
 };
 
+export const createColumn = (newColumn:  string) => {
+  console.log("createColumn from action", newColumn);
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    dispatch(createNewColumn(boardStore, newColumn, ));
+  };
+};
+
+export const createNewColumn = (boardStore: any, newColumn: any, ) => {
+  boardStore.push({
+    id: uuidv4(),
+    title: newColumn,
+    tasks: [],
+  })
+
+
+return {
+  type: constants.ADD_COLUMN,
+  boardStore: boardStore,
+};
+};
 export const createCard = (newCard: any, destinationCategory: string) => {
+  console.log("createCard from action", newCard);
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewCard(boardStore, newCard, destinationCategory));
@@ -80,7 +102,7 @@ export const fetchData = () => {
     const boardStore = read_cookie(BOARD_COOKIE);
     let data;
     if (boardStore && boardStore.constructor === Array) {
-      data = DATA;
+      data = [];
     } else data = boardStore;
 
     dispatch({ type: constants.RECEIVE_DATA, boardStore: data });
@@ -100,3 +122,4 @@ export const updateBoard = (data: any, state: any) => {
     state,
   };
 };
+

@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, } from "react";
+
 import { Card } from "../Card/";
 import "./styles.scss";
 
@@ -7,23 +8,34 @@ interface IColumnProps {
   categoryTasks: any;
   createCard: any;
   updateCard: (card: any, destinationCategory: string) => void;
-  moveCard: (cardId: number, sourceCategory: string, destinationCategory: string) => void;
+  moveCard: (
+    cardId: number,
+    sourceCategory: string,
+    destinationCategory: string
+  ) => void;
   removeCardFromColumn: (id: number, category: string) => void;
 }
 
+interface tasks {
+  title: string;
+  id: number;
+  tasks: any;
+
+}
+  
 interface IColumnState {
   category: string;
-  categoryTasks: string[];
+  categoryTasks: any;
 }
-
 
 export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const [state, setState] = useState<IColumnState>(props);
   const [newtext, setNewtext] = useState("");
+  const [Addcard, setAddcard] = React.useState<boolean>(false);
 
-    const nameChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setNewtext(e.target.value);
-    }
+  const textChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewtext(e.target.value);
+  };
 
   React.useEffect(() => {
     setState({
@@ -41,7 +53,13 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     // const cardText = `${"Card" + nextId}`;
     const new_task = { id: nextId, text: newtext };
     const categoryTasks = [new_task, ...props.categoryTasks];
-    setState({ ...state, category: state.category, categoryTasks: categoryTasks });
+  
+    setState({
+      ...state,
+      category: state.category,
+      categoryTasks: categoryTasks,
+    });
+  
     props.createCard(new_task, props.category);
   };
 
@@ -78,7 +96,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
 
   const categoryTasks = props.categoryTasks;
   const category = props.category ? props.category : "";
-  const cards = categoryTasks.map((task: any, key: number) =>
+  const cards = categoryTasks.map((task: any, key: number) => (
     <Card
       key={key}
       id={task.id}
@@ -87,30 +105,43 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       removeCard={handleRemove}
       updateCard={handleUpdate}
     />
-  );
+  ));
 
   return (
     <div
-      className={"column " + category}
+      className="list"
       onDrop={handleOnDrop}
-      onDragOver={handleOnDragOver}>
-      <header className="columnHeader">
-        <h3>
-          {category.split(/(?=[A-Z])/).join(" ") + " (" + categoryTasks.length + ")"}
+      onDragOver={handleOnDragOver}
+    >
+   
+        <h3 className="list-title">
+          {category.split(/(?=[A-Z])/).join(" ") +
+            " (" +
+            categoryTasks.length +
+            ")"}
         </h3>
-     
-      </header>
-      <div className="task-container droppable"> {cards}  
-      <div>
+    
+      <div className="task-container droppable">
+        {cards}
+        <div  className="add-card">
+          <div className="add-from">
+          <textarea
+            placeholder="Enter a title for this card…"
+            value={newtext}
+            onChange={textChange}
+          />
 
-          <textarea  placeholder="Enter a title for this card…"    value={newtext}   onChange={nameChange}/>
-         <button className="add-button" onClick={handleAdd} >
-          <span role="img" aria-label="plus">Add card</span>
-        </button>
-
+          <button className="add-button" onClick={handleAdd}>
+       
+            <span role="img" aria-label="plus">
+              Add card
+            </span>
+          </button>
+          </div>
+       
+        
         </div>
-        </div>
+      </div>
     </div>
   );
 };
-

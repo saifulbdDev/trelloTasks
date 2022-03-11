@@ -6,11 +6,12 @@ describe("Board", () => {
   const props = {
     category: "abc",
     createCard: jest.fn(),
+    createColumn: jest.fn(),
     fetchData: jest.fn(),
     moveCard: jest.fn(),
     updateCard: jest.fn(),
     removeCardFromColumn: jest.fn(),
-    boardStore: {}
+    boardStore:  Array<[][]>(),
   };
   let board = shallow(<Board {...props} />);
   it("renders properly", () => {

@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import {
+  createColumn,
   moveCard,
   removeCardFromColumn,
-  createCard,
+  createCard,  
   updateCard,
 } from "../../store/actions/actions";
 import Board, { IAppState } from "./template";
@@ -15,6 +16,9 @@ const mapStateToProps = (state: IAppState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    createColumn: (newColumn:  string) => {
+      dispatch(createColumn(newColumn, ));
+    },
     moveCard: (cardId: number, sourceCategory: string, destinationCategory: string) => {
       dispatch(moveCard(cardId, sourceCategory, destinationCategory));
     },
@@ -24,6 +28,7 @@ const mapDispatchToProps = (dispatch: any) => {
     createCard: (card: any, destinationCategory: string) => {
       dispatch(createCard(card, destinationCategory));
     },
+  
     updateCard: (card: any, destinationCategory: string) => {
       dispatch(updateCard(card, destinationCategory));
     },
