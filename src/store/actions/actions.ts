@@ -1,5 +1,5 @@
 import * as constants from "./actionTypes";
-import { v4 as uuidv4 } from 'uuid';
+
 import { read_cookie } from "sfcookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
@@ -40,7 +40,7 @@ export const addCard = (
 };
 
 export const createColumn = (newColumn:  string) => {
-  console.log("createColumn from action", newColumn);
+
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewColumn(boardStore, newColumn, ));
@@ -48,11 +48,7 @@ export const createColumn = (newColumn:  string) => {
 };
 
 export const createNewColumn = (boardStore: any, newColumn: any, ) => {
-  boardStore.push({
-    id: uuidv4(),
-    title: newColumn,
-    tasks: [],
-  })
+  boardStore  =   boardStore[newColumn] = []
 
 
 return {
@@ -61,7 +57,7 @@ return {
 };
 };
 export const createCard = (newCard: any, destinationCategory: string) => {
-  console.log("createCard from action", newCard);
+
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewCard(boardStore, newCard, destinationCategory));

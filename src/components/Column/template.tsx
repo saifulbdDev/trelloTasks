@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent, } from "react";
-
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, ChangeEvent } from "react";
+import closeIcon from "../../styles/images/kindpng_2148901.png";
 import { Card } from "../Card/";
-import "./styles.scss";
+import "./_styles.scss";
 
 interface IColumnProps {
   category: string;
@@ -16,22 +18,15 @@ interface IColumnProps {
   removeCardFromColumn: (id: number, category: string) => void;
 }
 
-interface tasks {
-  title: string;
-  id: number;
-  tasks: any;
-
-}
-  
 interface IColumnState {
   category: string;
-  categoryTasks: any;
+  categoryTasks: string[];
 }
 
 export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const [state, setState] = useState<IColumnState>(props);
   const [newtext, setNewtext] = useState("");
-  const [Addcard, setAddcard] = React.useState<boolean>(false);
+  const [addCard, setAddcard] = React.useState<boolean>(false);
 
   const textChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewtext(e.target.value);
@@ -43,23 +38,27 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       categoryTasks: [],
     });
   }, [props.category]);
-
+  const handleOnAdd = () => {
+    setAddcard(true);
+  };
+  const handleOnClose = () => {
+    setAddcard(false);
+  };
   const handleAdd = () => {
     const maxIdPerCategory = Math.max(
       ...props.categoryTasks.map((item: any) => item.id),
       0
     );
     const nextId = maxIdPerCategory + 1;
-    // const cardText = `${"Card" + nextId}`;
     const new_task = { id: nextId, text: newtext };
     const categoryTasks = [new_task, ...props.categoryTasks];
-  
+
     setState({
       ...state,
       category: state.category,
       categoryTasks: categoryTasks,
     });
-  
+
     props.createCard(new_task, props.category);
   };
 
@@ -107,41 +106,46 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     />
   ));
 
-  return (
-    <div
-      className="list"
-      onDrop={handleOnDrop}
-      onDragOver={handleOnDragOver}
-    >
-   
-        <h3 className="list-title">
-          {category.split(/(?=[A-Z])/).join(" ") +
-            " (" +
-            categoryTasks.length +
-            ")"}
-        </h3>
-    
-      <div className="task-container droppable">
-        {cards}
-        <div  className="add-card">
-          <div className="add-from">
-          <textarea
-            placeholder="Enter a title for this card…"
-            value={newtext}
-            onChange={textChange}
-          />
+  const addListFrom = () => {
+    return (
+      <div className="add-from">
+        <textarea
+          placeholder="Enter a title for this card…"
+          value={newtext}
+          onChange={textChange}
+        />
 
-          <button className="add-button" onClick={handleAdd}>
-       
-            <span role="img" aria-label="plus">
-              Add card
-            </span>
+        <div className="addlist-from-btn-group">
+          <button className="addlist-submit" onClick={handleAdd}>
+            Add card
           </button>
-          </div>
-       
-        
+          <a href="#" className="addlist-close" onClick={handleOnClose}>
+            <img width="20" src={closeIcon} alt="close icon" />
+          </a>
         </div>
       </div>
+    );
+  };
+  const addListButton = () => {
+    return (
+      <div className="addcard-btn-group">
+        <a href="javascript:void(0)" className="addcard-btn" onClick={handleOnAdd}>
+          <i className="fas fa-plus"></i> Add card
+        </a>
+      </div>
+    );
+  };
+
+  const content = addCard ? addListFrom() : addListButton();
+
+  return (
+    <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
+      <h3 className="list-title">{category.split("column_").join(" ")}</h3>
+      <div className="task-container droppable">
+        {cards}
+     
+      </div>
+      {content}
     </div>
   );
 };

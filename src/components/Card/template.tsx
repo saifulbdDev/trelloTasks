@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.scss";
+import "./_styles.scss";
 
 interface ICardProps {
   category: string;
@@ -69,12 +69,12 @@ export const Card: React.FC<ICardProps> = (props) => {
   }
 
   const content = state.editable
-    ? getInputField()
+    ? getInputField
     : props.text;
 
   return (
     <div
-      className={`card ${props.category}` + (isDragged ? "isDragged" : "")}
+      className={`card ` + (isDragged ? "isDragged" : "")}
       onDragStart={(e) => handleOnDragStart(e, props.id)}
       onDragEnd={handleOnDragStop}
       draggable

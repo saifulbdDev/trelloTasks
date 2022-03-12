@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-sequences */
 import { read_cookie, bake_cookie } from "sfcookies";
 import { BOARD_COOKIE } from "../../common/constants";
 import {
@@ -10,43 +12,42 @@ import {
   UPDATE_BOARD,
   CREATE_CARD,
   UPDATE_CARD,
-
 } from "../actions/actionTypes";
 
 const initialState = {
-  boardStore: [],
+  boardStore: {},
 };
 
 const boardStore = (state = initialState.boardStore, action: any) => {
   let boardStore;
-  console.log(action, 'action.type')
+  console.log(state, "action.type");
   switch (action.type) {
     case ADD_COLUMN:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case REMOVE_COLUMN:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case ADD_CARD:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case REMOVE_CARD:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case MOVE_CARD:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case RECEIVE_DATA:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case UPDATE_BOARD:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case CREATE_CARD:
-      boardStore =  action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     case UPDATE_CARD:
-      boardStore = action.boardStore;
+      boardStore = Object.assign({}, state, action.boardStore);
       break;
     default:
       boardStore = read_cookie(BOARD_COOKIE) || state;
@@ -55,7 +56,5 @@ const boardStore = (state = initialState.boardStore, action: any) => {
   bake_cookie(BOARD_COOKIE, boardStore);
   return boardStore;
 };
-
-
 
 export default boardStore;

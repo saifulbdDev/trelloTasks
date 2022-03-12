@@ -11,7 +11,7 @@ describe("Board", () => {
     moveCard: jest.fn(),
     updateCard: jest.fn(),
     removeCardFromColumn: jest.fn(),
-    boardStore:  Array<[][]>(),
+    boardStore: {}
   };
   let board = shallow(<Board {...props} />);
   it("renders properly", () => {

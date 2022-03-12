@@ -1,7 +1,5 @@
 import React, { useState, ChangeEvent, } from "react";
 
-import { FontAwesomeIcon } from  '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 // import "./styles.scss";
 
@@ -19,7 +17,7 @@ function Header() {
 
 		<div className="board-search">
 			<input type="search" className="board-search-input" aria-label="Board Search"/>
-			<FontAwesomeIcon icon={faSearch}  className="search-icon"/> 
+			<i   className="search-icon"/> 
 		</div>
 
 	</div>

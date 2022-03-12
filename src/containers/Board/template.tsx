@@ -1,5 +1,5 @@
 import React from "react";
-import "./Board.scss";
+import "./_style.scss";
 import { connect } from "react-redux";
 import { fetchData } from "../../store/actions/actions";
 import { Column } from "../../components/Column/template";
@@ -9,6 +9,8 @@ export interface IAppState {
   boardStore: any;
 }
 
+
+ 
 interface IBoardProps {
   removeCardFromColumn: (cardId: number, sourceCategory: string) => void;
   moveCard: (
@@ -21,30 +23,34 @@ interface IBoardProps {
   createColumn?: (newColumn: string) => void;
   createCard?: (card: any, destinationCategory: string) => void;
 
-  boardStore: string[];
+  boardStore: any;
 }
 
 interface IBoardState {
-  boardStore: Array<[][]>;
+  boardStore: any;
 }
 
 export const Board: React.FC<IBoardProps & IBoardState> = (
   props: IBoardProps
 ) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, setState] = React.useState<IBoardState>(props);
+  const [, setState] = React.useState<IBoardState>(props);
 
   const { boardStore, fetchData } = props;
 
-
+  React.useEffect(() => {
+    setState({
+      boardStore: {}
+    });
+  }, [boardStore]);
 
   React.useEffect(() => {
     fetchData();
   }, [fetchData]);
+  console.log(props.boardStore, "boardStore");
 
-
-
-  const columns = boardStore.map((category: string, key: number) => {
+  const boardColumns =
+    (props.boardStore && Object.keys(props.boardStore)) || [];
+  const columns = boardColumns.map((category: string, key: number) => {
     return (
       <Column
         key={key}
@@ -80,3 +86,4 @@ export default connect(
   },
   { fetchData }
 )(Board);
+
