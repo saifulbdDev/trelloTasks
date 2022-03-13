@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { connect } from "react-redux";
 import {
   createColumn,
+  updateColumn,
   moveCard,
   removeCardFromColumn,
   createCard,  
@@ -16,12 +18,19 @@ const mapStateToProps = (state: IAppState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+
+
     createColumn: (newColumn:  string) => {
       dispatch(createColumn(newColumn, ));
+    },
+
+    updateColumn: (upColumn: any, oldColumn: string) => {
+      dispatch(updateColumn(upColumn, oldColumn));
     },
     moveCard: (cardId: number, sourceCategory: string, destinationCategory: string) => {
       dispatch(moveCard(cardId, sourceCategory, destinationCategory));
     },
+  
     removeCardFromColumn: (cardId: number, sourceCategory: string) => {
       dispatch(removeCardFromColumn(cardId, sourceCategory));
     },
@@ -32,6 +41,7 @@ const mapDispatchToProps = (dispatch: any) => {
     updateCard: (card: any, destinationCategory: string) => {
       dispatch(updateCard(card, destinationCategory));
     },
+   
   };
 };
 

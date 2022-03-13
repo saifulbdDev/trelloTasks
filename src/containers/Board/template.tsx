@@ -9,8 +9,6 @@ export interface IAppState {
   boardStore: any;
 }
 
-
- 
 interface IBoardProps {
   removeCardFromColumn: (cardId: number, sourceCategory: string) => void;
   moveCard: (
@@ -18,6 +16,7 @@ interface IBoardProps {
     sourceCategory: string,
     destinationCategory: string
   ) => void;
+  updateColumn: (upColumn: string, oldColumn: string) => void;
   updateCard: (card: any, destinationCategory: string) => void;
   fetchData: () => void;
   createColumn?: (newColumn: string) => void;
@@ -34,32 +33,31 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
   props: IBoardProps
 ) => {
   const [, setState] = React.useState<IBoardState>(props);
-
   const { boardStore, fetchData } = props;
 
   React.useEffect(() => {
     setState({
-      boardStore: {}
+      boardStore: []
     });
   }, [boardStore]);
 
   React.useEffect(() => {
     fetchData();
   }, [fetchData]);
-  console.log(props.boardStore, "boardStore");
 
-  const boardColumns =
-    (props.boardStore && Object.keys(props.boardStore)) || [];
-  const columns = boardColumns.map((category: string, key: number) => {
+     const boardStoreList =   props.boardStore || []
+
+  const columns = boardStoreList.map((category: any, key: number) => {
     return (
       <Column
         key={key}
-        category={category}
+        category={category.title}
         removeCardFromColumn={props.removeCardFromColumn}
         moveCard={props.moveCard}
         createCard={props.createCard}
         updateCard={props.updateCard}
-        categoryTasks={props.boardStore[category]}
+        updateColumn={props.updateColumn}
+        categoryTasks={category.tasks}
       />
     );
   });
@@ -79,11 +77,9 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
 export default connect(
   (state: IAppState) => {
     let boardStore;
-    if (state.boardStore.constructor === Array) {
-      boardStore = {};
-    } else boardStore = state.boardStore;
+    boardStore = state.boardStore;
+
     return { boardStore };
   },
   { fetchData }
 )(Board);
-

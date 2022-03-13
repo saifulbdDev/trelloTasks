@@ -1,9 +1,14 @@
 import * as constants from "./actionTypes";
 
-import { read_cookie } from "sfcookies";
+
+import { read_cookie, bake_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
-export const moveCard = (cardId: number, sourceCategory: string, destinationCategory: string) => {
+export const moveCard = (
+  cardId: number,
+  sourceCategory: string,
+  destinationCategory: string
+) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(addCard(boardStore, cardId, sourceCategory, destinationCategory));
@@ -39,34 +44,61 @@ export const addCard = (
   };
 };
 
-export const createColumn = (newColumn:  string) => {
-
+export const createColumn = (newColumn: string) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
-    dispatch(createNewColumn(boardStore, newColumn, ));
+    dispatch(createNewColumn(boardStore, newColumn));
+    // console.log(boardStore, "createColumn");
   };
 };
 
-export const createNewColumn = (boardStore: any, newColumn: any, ) => {
-  boardStore  =   boardStore[newColumn] = []
+export const createNewColumn = (boardStore: any, newColumn: any) => {
+  
+   boardStore.push({ title: newColumn, tasks: [] });
 
 
-return {
-  type: constants.ADD_COLUMN,
-  boardStore: boardStore,
+  return {
+    type: constants.ADD_COLUMN,
+    boardStore: boardStore,
+  };
 };
+
+export const updateColumn = (updateColumn: string, oldColumn: string) => {
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    dispatch(updateOldColumn(boardStore, updateColumn, oldColumn));
+  };
+};
+
+export const updateOldColumn = (
+  boardStore: any,
+  newColumn: string,
+  oldColumn: string
+) => {
+  boardStore[newColumn] = boardStore[oldColumn]; // Assign new key
+  delete boardStore[oldColumn]; // Delete old key
+
+  return {
+    type: constants.COLUMN_UPDATE,
+    boardStore: boardStore,
+  };
 };
 export const createCard = (newCard: any, destinationCategory: string) => {
-
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewCard(boardStore, newCard, destinationCategory));
   };
 };
 
-export const createNewCard = (boardStore: any, newCard: any, destinationCategory: string) => {
-    console.log(newCard + " fgfg" + destinationCategory);
-  boardStore[destinationCategory] = [newCard, ...boardStore[destinationCategory],
+export const createNewCard = (
+  boardStore: any,
+  newCard: any,
+  destinationCategory: string
+) => {
+
+  boardStore[destinationCategory] = [
+    newCard,
+    ...boardStore[destinationCategory],
   ];
   return {
     type: constants.CREATE_CARD,
@@ -74,11 +106,17 @@ export const createNewCard = (boardStore: any, newCard: any, destinationCategory
   };
 };
 
-export const removeCard = (boardStore: any, cardId: number, sourceCategory: string) => {
+export const removeCard = (
+  boardStore: any,
+  cardId: number,
+  sourceCategory: string
+) => {
   if (boardStore) {
-    boardStore[sourceCategory] = boardStore[sourceCategory].filter((card: any) => {
-      return card.id !== +cardId;
-    });
+    boardStore[sourceCategory] = boardStore[sourceCategory].filter(
+      (card: any) => {
+        return card.id !== +cardId;
+      }
+    );
   }
   return {
     type: constants.REMOVE_CARD,
@@ -86,7 +124,10 @@ export const removeCard = (boardStore: any, cardId: number, sourceCategory: stri
   };
 };
 
-export const removeCardFromColumn = (cardId: number, sourceCategory: string) => {
+export const removeCardFromColumn = (
+  cardId: number,
+  sourceCategory: string
+) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(removeCard(boardStore, cardId, sourceCategory));
@@ -96,12 +137,11 @@ export const removeCardFromColumn = (cardId: number, sourceCategory: string) => 
 export const fetchData = () => {
   return (dispatch: any) => {
     const boardStore = read_cookie(BOARD_COOKIE);
-    let data;
-    if (boardStore && boardStore.constructor === Array) {
-      data = [];
-    } else data = boardStore;
 
-    dispatch({ type: constants.RECEIVE_DATA, boardStore: data });
+    console.log(boardStore, "fetchData");
+    
+
+    dispatch({ type: constants.RECEIVE_DATA, boardStore: boardStore });
   };
 };
 
@@ -118,4 +158,3 @@ export const updateBoard = (data: any, state: any) => {
     state,
   };
 };
-

@@ -1,6 +1,8 @@
+/* eslint-disable no-func-assign */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect, useRef } from "react";
+import {Outside} from "../../common/outside";
 import closeIcon from "../../styles/images/kindpng_2148901.png";
 import { Card } from "../Card/";
 import "./_styles.scss";
@@ -10,6 +12,7 @@ interface IColumnProps {
   categoryTasks: any;
   createCard: any;
   updateCard: (card: any, destinationCategory: string) => void;
+  updateColumn: (upColumn: string, oldColumn: string) => void;
   moveCard: (
     cardId: number,
     sourceCategory: string,
@@ -25,19 +28,52 @@ interface IColumnState {
 
 export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const [state, setState] = useState<IColumnState>(props);
+  const wrapperRef = useRef(null);
   const [newtext, setNewtext] = useState("");
+  const categoryTasks = props.categoryTasks;
+  const category = props.category ? props.category : "";
   const [addCard, setAddcard] = React.useState<boolean>(false);
+  const [categoryUpdate, setTitle] = useState(
+    category.split("column_").join("")
+  );
+
+  const [titleEditble, setTitleEditble] = React.useState<boolean>(false);
 
   const textChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewtext(e.target.value);
   };
+  const titleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
 
-  React.useEffect(() => {
+  Outside(wrapperRef, () => titileOnSave());
+
+  useEffect(() => {
     setState({
       category: props.category,
       categoryTasks: [],
     });
   }, [props.category]);
+  const titileOnUpdate = () => {
+    setTitleEditble(true);
+  };
+
+ 
+  const titileOnSave = () => {
+    setTitleEditble(false)
+  
+    if(categoryUpdate){
+      // props.createCard(newtext, categoryUpdate);
+      console.log( props.updateColumn)
+      props.updateColumn(categoryUpdate, category);
+    
+    }else{
+       console.log(categoryTasks, "categoryTasks");
+      setTitle(category.split("column_").join(""))
+     
+    }
+  
+  };
   const handleOnAdd = () => {
     setAddcard(true);
   };
@@ -93,8 +129,6 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     }
   };
 
-  const categoryTasks = props.categoryTasks;
-  const category = props.category ? props.category : "";
   const cards = categoryTasks.map((task: any, key: number) => (
     <Card
       key={key}
@@ -119,7 +153,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
           <button className="addcard-submit" onClick={handleAdd}>
             Add card
           </button>
-          <a   href="#" className="addcard-close" onClick={handleOnClose}>
+          <a href="#" className="addcard-close" onClick={handleOnClose}>
             <img width="20" src={closeIcon} alt="close icon" />
           </a>
         </div>
@@ -129,11 +163,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const addListButton = () => {
     return (
       <div className="addcard-btn-group">
-        <a
-          href="#"
-          className="addcard-btn"
-          onClick={handleOnAdd}
-        >
+        <a href="#" className="addcard-btn" onClick={handleOnAdd}>
           <i className="fas fa-plus"></i> Add card
         </a>
         <span className="addcard-icon">
@@ -142,16 +172,36 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       </div>
     );
   };
+  const title = () => {
+    return (
+      <h3 onClick={titileOnUpdate} className="list-title">
+        {category.split("column_").join(" ")}
+      </h3>
+    );
+  };
+  const titleEdit = () => {
+    return (
+      <input ref={wrapperRef} onChange={titleChange} value={categoryUpdate} />
+    );
+  };
 
   const content = addCard ? addListFrom() : addListButton();
+  const categoryTitle = titleEditble ? titleEdit() : title();
 
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
-      <h3 className="list-title">{category.split("column_").join(" ")}</h3>
-      <div className="task-container droppable">{cards}
-      
-      {content}
+      <div className="list-header">
+        <div>{categoryTitle}</div>
+        <div className="list-header-btn"></div>
+      </div>
+
+      <div className="task-container droppable">
+        {cards}
+        {content}
       </div>
     </div>
   );
 };
+function ref(ref: any, arg1: () => void) {
+  throw new Error("Function not implemented.");
+}

@@ -10,6 +10,7 @@ describe("Column", () => {
     createCard: jest.fn(),
     moveCard: jest.fn(),
     updateCard: jest.fn(),
+    updateColumn: jest.fn(),
     removeCardFromColumn: jest.fn(),
   };
 

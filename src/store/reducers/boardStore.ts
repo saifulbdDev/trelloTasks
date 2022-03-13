@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-sequences */
-import { read_cookie, bake_cookie } from "sfcookies";
+import { read_cookie, bake_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 import {
   ADD_COLUMN,
@@ -15,39 +15,43 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-  boardStore: {},
+  boardStore: [],
 };
 
 const boardStore = (state = initialState.boardStore, action: any) => {
-  let boardStore;
-  console.log(state, "action.type");
+
+   
+     let boardStore: string[] =  state;
+     
+   
   switch (action.type) {
     case ADD_COLUMN:
-      boardStore = Object.assign({}, state, action.boardStore);
+      boardStore.concat(state, action.boardStore);
+      console.log(state, action.boardStore, 'ADD_COLUMN')
       break;
     case REMOVE_COLUMN:
-      boardStore = Object.assign({}, state, action.boardStore);
+      boardStore.concat(state, action.boardStore);
       break;
     case ADD_CARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+      boardStore.concat(state, action.boardStore);
       break;
     case REMOVE_CARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+      boardStore.concat(state, action.boardStore);
       break;
     case MOVE_CARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+    boardStore.concat(state, action.boardStore);
       break;
     case RECEIVE_DATA:
-      boardStore = Object.assign({}, state, action.boardStore);
+    boardStore.concat(state, action.boardStore);
       break;
     case UPDATE_BOARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+    boardStore.concat(state, action.boardStore);
       break;
     case CREATE_CARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+    boardStore.concat(state, action.boardStore);
       break;
     case UPDATE_CARD:
-      boardStore = Object.assign({}, state, action.boardStore);
+    boardStore.concat(state, action.boardStore);
       break;
     default:
       boardStore = read_cookie(BOARD_COOKIE) || state;
@@ -56,5 +60,7 @@ const boardStore = (state = initialState.boardStore, action: any) => {
   bake_cookie(BOARD_COOKIE, boardStore);
   return boardStore;
 };
+
+
 
 export default boardStore;
