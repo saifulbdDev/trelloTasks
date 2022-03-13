@@ -1,6 +1,5 @@
 import * as constants from "./actionTypes";
 
-
 import { read_cookie, bake_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
@@ -48,14 +47,13 @@ export const createColumn = (newColumn: string) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewColumn(boardStore, newColumn));
+
     // console.log(boardStore, "createColumn");
   };
 };
 
 export const createNewColumn = (boardStore: any, newColumn: any) => {
-  
-   boardStore.push({ title: newColumn, tasks: [] });
-
+  boardStore.push(newColumn);
 
   return {
     type: constants.ADD_COLUMN,
@@ -93,13 +91,11 @@ export const createCard = (newCard: any, destinationCategory: string) => {
 export const createNewCard = (
   boardStore: any,
   newCard: any,
-  destinationCategory: string
+  destinationCategory: any
 ) => {
-
-  boardStore[destinationCategory] = [
-    newCard,
-    ...boardStore[destinationCategory],
-  ];
+ 
+  boardStore[destinationCategory].tasks.push(newCard);
+  
   return {
     type: constants.CREATE_CARD,
     boardStore: boardStore,
@@ -136,12 +132,14 @@ export const removeCardFromColumn = (
 
 export const fetchData = () => {
   return (dispatch: any) => {
+    console.log("fetchData");
     const boardStore = read_cookie(BOARD_COOKIE);
+    let data;
+    if (boardStore && boardStore.constructor === Object) {
+      data = [];
+    } else data = boardStore;
 
-    console.log(boardStore, "fetchData");
-    
-
-    dispatch({ type: constants.RECEIVE_DATA, boardStore: boardStore });
+    dispatch({ type: constants.RECEIVE_DATA, boardStore: data });
   };
 };
 
@@ -158,3 +156,6 @@ export const updateBoard = (data: any, state: any) => {
     state,
   };
 };
+function dispatch(arg0: (dispatch: any) => void) {
+  throw new Error("Function not implemented.");
+}

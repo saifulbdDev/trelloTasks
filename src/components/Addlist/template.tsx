@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, ChangeEvent } from "react";
+import { v4 as uuidv4 } from "uuid";
 import "./_styles.scss";
 import closeIcon from "../../styles/images/kindpng_2148901.png";
 interface ICardProps {
@@ -13,12 +14,12 @@ interface IColumnState {
 }
 
 export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
+  const [state, setState] = useState<IColumnState>(props);
   const [addList, setList] = React.useState<boolean>(false);
   const [listName, setNewname] = useState("");
   const [nameError, setError] = useState("");
-  const titile = Object.keys(props.boardStore).length
-    ? "Add another list"
-    : "Add a list";
+
+  const titile = props.boardStore.length ? "Add another list" : "Add a list";
 
   const nameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewname(e.target.value);
@@ -34,15 +35,19 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
   const handleAdd = () => {
     if (listName == "") {
     } else {
-      if (props.boardStore.hasOwnProperty("column_" + listName)) {
-        setError("This list name already exist.");
-      } else {
-        props.createColumn("column_" + listName);
-        setNewname("");
-      }
+
+     const new_column  =  {id: uuidv4(), title: listName, tasks: [] }
+     const boardStore = [new_column, ...props.boardStore];
+    
+
+     setState({
+       ...state,     
+       boardStore: boardStore,
+     });
+      props.createColumn(new_column);
+      setNewname('');
     }
   };
-
   const addListFrom = () => {
     return (
       <div className={`addlist-from ` + (nameError ? "error-from" : "")}>

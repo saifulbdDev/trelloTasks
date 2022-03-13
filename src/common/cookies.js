@@ -9,6 +9,7 @@ exports.delete_cookie = delete_cookie;
 function bake_cookie(name, value,date) {
     let expirey = date instanceof Date ? '; expires='+date : null
     var cookie = [name, '=', JSON.stringify(value), '; domain_.', window.location.host.toString(), '; path=/;',expirey].join('');
+ 
     document.cookie = cookie;
 }
 

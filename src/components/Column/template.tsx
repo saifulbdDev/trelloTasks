@@ -2,13 +2,15 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, ChangeEvent, useEffect, useRef } from "react";
-import {Outside} from "../../common/outside";
+import { Outside } from "../../common/outside";
+import { v4 as uuidv4 } from "uuid";
 import closeIcon from "../../styles/images/kindpng_2148901.png";
 import { Card } from "../Card/";
 import "./_styles.scss";
 
 interface IColumnProps {
-  category: string;
+  category: any;
+  catkey: any;
   categoryTasks: any;
   createCard: any;
   updateCard: (card: any, destinationCategory: string) => void;
@@ -33,12 +35,8 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const categoryTasks = props.categoryTasks;
   const category = props.category ? props.category : "";
   const [addCard, setAddcard] = React.useState<boolean>(false);
-  const [categoryUpdate, setTitle] = useState(
-    category.split("column_").join("")
-  );
-
+  const [categoryUpdate, setTitle] = useState(category.title);
   const [titleEditble, setTitleEditble] = React.useState<boolean>(false);
-
   const textChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewtext(e.target.value);
   };
@@ -58,21 +56,14 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     setTitleEditble(true);
   };
 
- 
   const titileOnSave = () => {
-    setTitleEditble(false)
-  
-    if(categoryUpdate){
-      // props.createCard(newtext, categoryUpdate);
-      console.log( props.updateColumn)
+    setTitleEditble(false);
+
+    if (categoryUpdate) {
       props.updateColumn(categoryUpdate, category);
-    
-    }else{
-       console.log(categoryTasks, "categoryTasks");
-      setTitle(category.split("column_").join(""))
-     
+    } else {
+      setTitle(category.title);
     }
-  
   };
   const handleOnAdd = () => {
     setAddcard(true);
@@ -81,21 +72,19 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     setAddcard(false);
   };
   const handleAdd = () => {
-    const maxIdPerCategory = Math.max(
-      ...props.categoryTasks.map((item: any) => item.id),
-      0
-    );
-    const nextId = maxIdPerCategory + 1;
-    const new_task = { id: nextId, text: newtext };
-    const categoryTasks = [new_task, ...props.categoryTasks];
+    if (newtext) {
+      const new_task = { id: uuidv4(), text: newtext };
+      const categoryTasks = [new_task, ...props.categoryTasks];
 
-    setState({
-      ...state,
-      category: state.category,
-      categoryTasks: categoryTasks,
-    });
+      setState({
+        ...state,
+        category: state.category,
+        categoryTasks: categoryTasks,
+      });
 
-    props.createCard(new_task, props.category);
+      props.createCard(new_task, props.catkey);
+      setNewtext("");
+    }
   };
 
   const handleRemove = (cardIdToRemove: number) => {
@@ -175,7 +164,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const title = () => {
     return (
       <h3 onClick={titileOnUpdate} className="list-title">
-        {category.split("column_").join(" ")}
+        {category.title}
       </h3>
     );
   };

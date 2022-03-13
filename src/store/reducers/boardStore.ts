@@ -27,7 +27,7 @@ const boardStore = (state = initialState.boardStore, action: any) => {
   switch (action.type) {
     case ADD_COLUMN:
       boardStore.concat(state, action.boardStore);
-      console.log(state, action.boardStore, 'ADD_COLUMN')
+   
       break;
     case REMOVE_COLUMN:
       boardStore.concat(state, action.boardStore);

@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 
 describe("Board", () => {
   const props = {
-    category: "abc",
+    category: 1,
     createCard: jest.fn(),
     createColumn: jest.fn(),
     fetchData: jest.fn(),

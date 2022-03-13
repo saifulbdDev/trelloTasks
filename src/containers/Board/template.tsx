@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import React from "react";
 
 import { connect } from "react-redux";
@@ -45,13 +46,16 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
     fetchData();
   }, [fetchData]);
 
-     const boardStoreList =   props.boardStore || []
+     const boardStoreList =  props.boardStore && props.boardStore || []
 
   const columns = boardStoreList.map((category: any, key: number) => {
+  
     return (
+
       <Column
         key={key}
-        category={category.title}
+        catkey={key}
+        category={category}
         removeCardFromColumn={props.removeCardFromColumn}
         moveCard={props.moveCard}
         createCard={props.createCard}
@@ -77,9 +81,12 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
 export default connect(
   (state: IAppState) => {
     let boardStore;
-    boardStore = state.boardStore;
-
+    console.log(state.boardStore, 'state.boardStore');
+    if (state.boardStore.constructor === Object ) {
+      boardStore = [];      
+    } else boardStore = state.boardStore;
     return { boardStore };
   },
+ 
   { fetchData }
 )(Board);
