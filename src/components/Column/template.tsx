@@ -108,18 +108,18 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
 
   const addListFrom = () => {
     return (
-      <div className="add-from">
+      <div className="add-from ">
         <textarea
           placeholder="Enter a title for this card…"
           value={newtext}
           onChange={textChange}
         />
 
-        <div className="addlist-from-btn-group">
-          <button className="addlist-submit" onClick={handleAdd}>
+        <div className="cardfrom-btn-group">
+          <button className="addcard-submit" onClick={handleAdd}>
             Add card
           </button>
-          <a href="#" className="addlist-close" onClick={handleOnClose}>
+          <a   href="#" className="addcard-close" onClick={handleOnClose}>
             <img width="20" src={closeIcon} alt="close icon" />
           </a>
         </div>
@@ -129,9 +129,16 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const addListButton = () => {
     return (
       <div className="addcard-btn-group">
-        <a href="javascript:void(0)" className="addcard-btn" onClick={handleOnAdd}>
+        <a
+          href="#"
+          className="addcard-btn"
+          onClick={handleOnAdd}
+        >
           <i className="fas fa-plus"></i> Add card
         </a>
+        <span className="addcard-icon">
+          <i className="fas fa-file-video"></i>
+        </span>
       </div>
     );
   };
@@ -141,11 +148,10 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
       <h3 className="list-title">{category.split("column_").join(" ")}</h3>
-      <div className="task-container droppable">
-        {cards}
-     
-      </div>
+      <div className="task-container droppable">{cards}
+      
       {content}
+      </div>
     </div>
   );
 };

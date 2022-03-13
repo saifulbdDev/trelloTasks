@@ -1,5 +1,5 @@
 import React from "react";
-import "./_style.scss";
+
 import { connect } from "react-redux";
 import { fetchData } from "../../store/actions/actions";
 import { Column } from "../../components/Column/template";

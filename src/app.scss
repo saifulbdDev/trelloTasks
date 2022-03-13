@@ -328,3 +328,27 @@ textarea {
     white-space: nowrap;
   }
 }
+
+
+
+// board-lists
+.board-lists {
+	// display: flex;
+	align-items: start;
+	padding: 0 0.8rem 0.8rem;
+	overflow-x: auto;
+	height: calc(100vh - 8.6rem);
+	display: grid;
+	grid-auto-columns: 27rem;
+	grid-auto-flow: column;
+	grid-column-gap: 1rem;
+	&::-webkit-scrollbar {
+		height: 2.4rem;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #66a3c7;
+		border: 0.8rem solid #0079bf;
+		border-top-width: 0;
+	}
+	
+}

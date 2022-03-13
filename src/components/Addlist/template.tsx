@@ -35,7 +35,7 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
     if (listName == "") {
      
     } else {
-      if (props.boardStore.hasOwnProperty(listName)) {
+      if (props.boardStore.hasOwnProperty('column_'+listName)) {
         setError("This list name already exist.");
       } else {
          
@@ -60,7 +60,7 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
           <button className="addlist-submit" onClick={handleAdd}>
             Add List
           </button>
-          <a href="#" className="addlist-close" onClick={handleOnClose}>
+          <a href="#"  className="addlist-close" onClick={handleOnClose}>
             <img width="20" src={closeIcon} alt="close icon" />
           </a>
         </div>
