@@ -1,5 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
-
+import React from "react";
 
 // import "./styles.scss";
 
@@ -10,22 +9,21 @@ function Boardbar() {
         <button className="board-title btn">
           <h2>Web Development</h2>
         </button>
-
         <button className="star-btn btn" aria-label="Star Board">
           <i className="far fa-star" aria-hidden="true"></i>
         </button>
-
         <button className="personal-btn btn">Personal</button>
-
         <button className="private-btn btn">
-          <i className="fas fa-briefcase private-btn-icon" aria-hidden="true"></i>
+          <i
+            className="fas fa-briefcase private-btn-icon"
+            aria-hidden="true"
+          ></i>
           Private
         </button>
       </div>
-
       <button className="menu-btn btn">
-        <i className="fas fa-ellipsis-h menu-btn-icon" aria-hidden="true"></i>Show
-        Menu
+        <i className="fas fa-ellipsis-h menu-btn-icon" aria-hidden="true"></i>
+        Show Menu
       </button>
     </section>
   );

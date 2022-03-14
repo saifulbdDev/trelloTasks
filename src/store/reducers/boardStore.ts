@@ -62,6 +62,3 @@ const boardStore = (state = initialState.boardStore, action: any) => {
 };
 
 export default boardStore;
-function concat(state: never[], boardStore: any) {
-  throw new Error("Function not implemented.");
-}

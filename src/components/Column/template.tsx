@@ -1,6 +1,4 @@
-/* eslint-disable no-func-assign */
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import { Outside } from "../../common/outside";
 import { v4 as uuidv4 } from "uuid";
@@ -60,7 +58,8 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const titileOnSave = () => {
     setTitleEditble(false);
 
-    if (updateTitle) {
+    if (updateTitle !== category.title && updateTitle !== "") {
+      console.log("updateTitle", updateTitle);
       props.updateColumn(updateTitle, category.id);
     } else {
       setTitle(category.title);
@@ -166,31 +165,27 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       </div>
     );
   };
-  const title = () => {
-    return (
-      <h3 onDoubleClick={titileOnUpdate} className="list-header-title">
-        {category.title}
-      </h3>
-    );
-  };
-  const titleEdit = () => {
-    return (
-      <input
-        className="list-header-field"
-        ref={wrapperRef}
-        onChange={titleChange}
-        value={updateTitle}
-      />
-    );
-  };
 
   const content = addCard ? addListFrom() : addListButton();
-  const categoryTitle = titleEditble ? titleEdit() : title();
 
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
       <div className="list-header">
-        <div className="list-header-contant">{categoryTitle}</div>
+        <div className="list-header-contant">        
+          <input
+            className={titleEditble ? "list-header-field" : "list-header-title"}
+            ref={wrapperRef}
+            onChange={titleChange}
+            onDoubleClick={titileOnUpdate}
+            readOnly={!titleEditble}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                titileOnSave();
+              }
+            }}
+            value={updateTitle}
+          />
+        </div>
         <div className="list-header-actions">
           <a href="#" onClick={columnOnDelete} className="list-header-action">
             <i className="fas fa-trash-alt"></i>
@@ -205,6 +200,3 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     </div>
   );
 };
-function ref(ref: any, arg1: () => void) {
-  throw new Error("Function not implemented.");
-}
