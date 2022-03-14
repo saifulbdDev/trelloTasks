@@ -13,14 +13,16 @@ export interface IAppState {
 interface IBoardProps {
   removeCardFromColumn: (cardId: number, sourceCategory: string) => void;
   moveCard: (
-    cardId: number,
+    cardId: string,
     sourceCategory: string,
     destinationCategory: string
   ) => void;
-  updateColumn: (upColumn: string, oldColumn: string) => void;
+
   updateCard: (card: any, destinationCategory: string) => void;
   fetchData: () => void;
+  updateColumn: (upColumn: string, oldColumn: string) => void;
   createColumn?: (newColumn: string) => void;
+  dateleColumn: (catId: string) => void;
   createCard?: (card: any, destinationCategory: string) => void;
 
   boardStore: any;
@@ -38,7 +40,7 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
 
   React.useEffect(() => {
     setState({
-      boardStore: []
+      boardStore: [],
     });
   }, [boardStore]);
 
@@ -46,12 +48,10 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
     fetchData();
   }, [fetchData]);
 
-     const boardStoreList =  props.boardStore && props.boardStore || []
+  const boardStoreList = (props.boardStore && props.boardStore) || [];
 
   const columns = boardStoreList.map((category: any, key: number) => {
-  
     return (
-
       <Column
         key={key}
         catkey={key}
@@ -61,6 +61,7 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
         createCard={props.createCard}
         updateCard={props.updateCard}
         updateColumn={props.updateColumn}
+        dateleColumn={props.dateleColumn}
         categoryTasks={category.tasks}
       />
     );
@@ -81,12 +82,12 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
 export default connect(
   (state: IAppState) => {
     let boardStore;
-    console.log(state.boardStore, 'state.boardStore');
-    if (state.boardStore.constructor === Object ) {
-      boardStore = [];      
+
+    if (state.boardStore.constructor === Object) {
+      boardStore = [];
     } else boardStore = state.boardStore;
     return { boardStore };
   },
- 
+
   { fetchData }
 )(Board);

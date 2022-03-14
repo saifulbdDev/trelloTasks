@@ -4,6 +4,7 @@ import { read_cookie, bake_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 import {
   ADD_COLUMN,
+  COLUMN_UPDATE,
   REMOVE_COLUMN,
   ADD_CARD,
   REMOVE_CARD,
@@ -19,39 +20,38 @@ const initialState = {
 };
 
 const boardStore = (state = initialState.boardStore, action: any) => {
+  let boardStore;
 
-   
-     let boardStore: string[] =  state;
-     
-   
   switch (action.type) {
     case ADD_COLUMN:
-      boardStore.concat(state, action.boardStore);
-   
+      boardStore = Object.assign([], state, action.boardStore);
+      break;
+    case COLUMN_UPDATE:
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case REMOVE_COLUMN:
-      boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([],  action.boardStore);
       break;
     case ADD_CARD:
-      boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case REMOVE_CARD:
-      boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case MOVE_CARD:
-    boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case RECEIVE_DATA:
-    boardStore.concat(state, action.boardStore);
+      boardStore = state || action.boardStore;
       break;
     case UPDATE_BOARD:
-    boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case CREATE_CARD:
-    boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case UPDATE_CARD:
-    boardStore.concat(state, action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     default:
       boardStore = read_cookie(BOARD_COOKIE) || state;
@@ -61,6 +61,7 @@ const boardStore = (state = initialState.boardStore, action: any) => {
   return boardStore;
 };
 
-
-
 export default boardStore;
+function concat(state: never[], boardStore: any) {
+  throw new Error("Function not implemented.");
+}

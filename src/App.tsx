@@ -9,7 +9,7 @@ function App() {
     <div className="App base" >
       <Header />
       <Boardbar />
-      <Board />
+      <Board   />
     </div>
   );
 }

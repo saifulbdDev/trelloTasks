@@ -7,11 +7,12 @@ describe("Column", () => {
   const props = {
     categoryTasks: [],
     category: "abc",
-    catkey: "abc",
+    catkey: 1,
     createCard: jest.fn(),
     moveCard: jest.fn(),
     updateCard: jest.fn(),
     updateColumn: jest.fn(),
+    dateleColumn: jest.fn(),
     removeCardFromColumn: jest.fn(),
   };
 

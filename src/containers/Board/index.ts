@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   createColumn,
   updateColumn,
+  dateleColumn,
   moveCard,
   removeCardFromColumn,
   createCard,
@@ -22,18 +23,21 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(createColumn(newColumn));
     },
 
-    updateColumn: (upColumn: any, oldColumn: string) => {
-      dispatch(updateColumn(upColumn, oldColumn));
+    updateColumn: (updateTitle: string, catId: any) => {
+      dispatch(updateColumn(updateTitle, catId));
+    },
+    dateleColumn: (catId: any) => {
+      dispatch(dateleColumn(catId));
     },
     moveCard: (
-      cardId: number,
+      cardId: any,
       sourceCategory: string,
       destinationCategory: string
     ) => {
       dispatch(moveCard(cardId, sourceCategory, destinationCategory));
     },
 
-    removeCardFromColumn: (cardId: number, sourceCategory: string) => {
+    removeCardFromColumn: (cardId: any, sourceCategory: string) => {
       dispatch(removeCardFromColumn(cardId, sourceCategory));
     },
     createCard: (card: any, destinationCategory: string) => {

@@ -3,52 +3,10 @@ import * as constants from "./actionTypes";
 import { read_cookie, bake_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
-export const moveCard = (
-  cardId: number,
-  sourceCategory: string,
-  destinationCategory: string
-) => {
-  return (dispatch: any, getState: any) => {
-    const boardStore = getState().boardStore;
-    dispatch(addCard(boardStore, cardId, sourceCategory, destinationCategory));
-    dispatch(removeCardFromColumn(cardId, sourceCategory));
-  };
-};
-
-export const updateCard = (card: any, destinationCategory: string) => {
-  return (dispatch: any, getState: any) => {
-    const boardStore = getState().boardStore;
-    const updatedCard = card;
-    dispatch(removeCard(boardStore, card.id, destinationCategory));
-    dispatch(createNewCard(boardStore, updatedCard, destinationCategory));
-  };
-};
-
-export const addCard = (
-  boardStore: any,
-  cardId: number,
-  sourceCategory: string,
-  destinationCategory: string
-) => {
-  const cardToMove = boardStore[sourceCategory].filter((card: any) => {
-    return card.id === +cardId;
-  });
-  boardStore[destinationCategory] = [
-    ...cardToMove,
-    ...boardStore[destinationCategory],
-  ];
-  return {
-    type: constants.ADD_CARD,
-    boardStore: boardStore,
-  };
-};
-
 export const createColumn = (newColumn: string) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewColumn(boardStore, newColumn));
-
-    // console.log(boardStore, "createColumn");
   };
 };
 
@@ -61,56 +19,136 @@ export const createNewColumn = (boardStore: any, newColumn: any) => {
   };
 };
 
-export const updateColumn = (updateColumn: string, oldColumn: string) => {
+export const updateColumn = (updateTitle: string, catId: any) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
-    dispatch(updateOldColumn(boardStore, updateColumn, oldColumn));
+    dispatch(updateOldColumn(boardStore, updateTitle, catId));
   };
 };
 
 export const updateOldColumn = (
   boardStore: any,
-  newColumn: string,
-  oldColumn: string
+  updateTitle: string,
+  catId: string
 ) => {
-  boardStore[newColumn] = boardStore[oldColumn]; // Assign new key
-  delete boardStore[oldColumn]; // Delete old key
+  boardStore = boardStore.map((obj: { id: string }) => {
+    if (obj.id === catId) {
+      return { ...obj, title: updateTitle };
+    }
+
+    return obj;
+  });
 
   return {
     type: constants.COLUMN_UPDATE,
     boardStore: boardStore,
   };
 };
+export const dateleColumn = (catId: any) => {
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    dispatch(dateleOnColumn(boardStore, catId));
+  };
+};
+
+export const dateleOnColumn = (boardStore: any, catId: string) => {
+  boardStore = boardStore.filter((obj: any) => {
+    return obj.id !== catId;
+  });
+
+  return {
+    type: constants.REMOVE_COLUMN,
+    boardStore: boardStore,
+  };
+};
+
 export const createCard = (newCard: any, destinationCategory: string) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
     dispatch(createNewCard(boardStore, newCard, destinationCategory));
   };
 };
+export const updateCard = (card: any, destinationCategory: string) => {
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    const updatedCard = card;
+    dispatch(removeCard(boardStore, card.id, destinationCategory));
+    dispatch(createNewCard(boardStore, updatedCard, destinationCategory));
+  };
+};
+
+
 
 export const createNewCard = (
   boardStore: any,
   newCard: any,
   destinationCategory: any
 ) => {
- 
   boardStore[destinationCategory].tasks.push(newCard);
-  
+
   return {
     type: constants.CREATE_CARD,
     boardStore: boardStore,
   };
 };
 
+export const moveCard = (
+  cardId: string,
+  sourceCategory: string,
+  destinationCategory: string
+) => {
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    dispatch(addCard(boardStore, cardId, sourceCategory, destinationCategory));
+    dispatch(removeCardFromColumn(cardId, sourceCategory));
+  };
+};
+export const addCard = (
+  boardStore: any,
+  cardId: string,
+  sourceCategory: string,
+  destinationCategory: string
+) => {
+
+
+  const cardToMove = boardStore[sourceCategory].tasks.filter((card: any) => {
+    return card.id === cardId;
+  });
+
+  console.log(cardToMove, 'cardToMove');
+  boardStore[destinationCategory].tasks = [
+    ...cardToMove,
+    ...boardStore[destinationCategory].tasks,
+  ];
+  return {
+    type: constants.ADD_CARD,
+    boardStore: boardStore,
+  };
+};
+
+export const removeCardFromColumn = (
+  cardId: string,
+  sourceCategory: string
+) => {
+  return (dispatch: any, getState: any) => {
+    const boardStore = getState().boardStore;
+    dispatch(removeCard(boardStore, cardId, sourceCategory));
+  };
+};
+
+
+
 export const removeCard = (
   boardStore: any,
-  cardId: number,
+  cardId: string,
   sourceCategory: string
 ) => {
   if (boardStore) {
-    boardStore[sourceCategory] = boardStore[sourceCategory].filter(
+
+    console.log(boardStore, cardId, sourceCategory, 'removeCard');
+    boardStore[sourceCategory].tasks = boardStore[sourceCategory].tasks.filter(
       (card: any) => {
-        return card.id !== +cardId;
+        return card.id !== cardId;
       }
     );
   }
@@ -120,19 +158,8 @@ export const removeCard = (
   };
 };
 
-export const removeCardFromColumn = (
-  cardId: number,
-  sourceCategory: string
-) => {
-  return (dispatch: any, getState: any) => {
-    const boardStore = getState().boardStore;
-    dispatch(removeCard(boardStore, cardId, sourceCategory));
-  };
-};
-
 export const fetchData = () => {
   return (dispatch: any) => {
-    console.log("fetchData");
     const boardStore = read_cookie(BOARD_COOKIE);
     let data;
     if (boardStore && boardStore.constructor === Object) {
@@ -156,6 +183,3 @@ export const updateBoard = (data: any, state: any) => {
     state,
   };
 };
-function dispatch(arg0: (dispatch: any) => void) {
-  throw new Error("Function not implemented.");
-}

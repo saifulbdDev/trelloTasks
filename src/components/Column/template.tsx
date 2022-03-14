@@ -15,8 +15,9 @@ interface IColumnProps {
   createCard: any;
   updateCard: (card: any, destinationCategory: string) => void;
   updateColumn: (upColumn: string, oldColumn: string) => void;
+  dateleColumn: (catId: string) => void;
   moveCard: (
-    cardId: number,
+    cardId: string,
     sourceCategory: string,
     destinationCategory: string
   ) => void;
@@ -35,7 +36,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const categoryTasks = props.categoryTasks;
   const category = props.category ? props.category : "";
   const [addCard, setAddcard] = React.useState<boolean>(false);
-  const [categoryUpdate, setTitle] = useState(category.title);
+  const [updateTitle, setTitle] = useState(category.title);
   const [titleEditble, setTitleEditble] = React.useState<boolean>(false);
   const textChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewtext(e.target.value);
@@ -59,11 +60,15 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const titileOnSave = () => {
     setTitleEditble(false);
 
-    if (categoryUpdate) {
-      props.updateColumn(categoryUpdate, category);
+    if (updateTitle) {
+      props.updateColumn(updateTitle, category.id);
     } else {
       setTitle(category.title);
     }
+  };
+
+  const columnOnDelete = () => {
+    props.dateleColumn(category.id);
   };
   const handleOnAdd = () => {
     setAddcard(true);
@@ -92,7 +97,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       return task.id !== cardIdToRemove;
     });
     setState({ ...state, categoryTasks: categoryTasks });
-    props.removeCardFromColumn(cardIdToRemove, state.category);
+    props.removeCardFromColumn(cardIdToRemove, props.catkey);
   };
 
   const handleUpdate = (card: any) => {
@@ -112,9 +117,9 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     moveTask(id, sourceCategory);
   };
 
-  const moveTask = (taskId: number, sourceCategory: string) => {
-    if (sourceCategory !== state.category) {
-      props.moveCard(taskId, sourceCategory, state.category);
+  const moveTask = (taskId: string, sourceCategory: string) => {
+    if (sourceCategory !== props.catkey) {
+      props.moveCard(taskId, sourceCategory, props.catkey);
     }
   };
 
@@ -123,7 +128,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       key={key}
       id={task.id}
       text={task.text}
-      category={category}
+      category={props.catkey}
       removeCard={handleRemove}
       updateCard={handleUpdate}
     />
@@ -163,14 +168,19 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
   const title = () => {
     return (
-      <h3 onClick={titileOnUpdate} className="list-title">
+      <h3 onDoubleClick={titileOnUpdate} className="list-header-title">
         {category.title}
       </h3>
     );
   };
   const titleEdit = () => {
     return (
-      <input ref={wrapperRef} onChange={titleChange} value={categoryUpdate} />
+      <input
+        className="list-header-field"
+        ref={wrapperRef}
+        onChange={titleChange}
+        value={updateTitle}
+      />
     );
   };
 
@@ -180,8 +190,12 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
       <div className="list-header">
-        <div>{categoryTitle}</div>
-        <div className="list-header-btn"></div>
+        <div className="list-header-contant">{categoryTitle}</div>
+        <div className="list-header-actions">
+          <a href="#" onClick={columnOnDelete} className="list-header-action">
+            <i className="fas fa-trash-alt"></i>
+          </a>
+        </div>
       </div>
 
       <div className="task-container droppable">

@@ -5,12 +5,14 @@ import { shallow } from "enzyme";
 describe("Board", () => {
   const props = {
     category: 1,
+    catKey: 1,
     createCard: jest.fn(),
     createColumn: jest.fn(),
     fetchData: jest.fn(),
     moveCard: jest.fn(),
     updateCard: jest.fn(),
     updateColumn: jest.fn(),
+    dateleColumn: jest.fn(),
     removeCardFromColumn: jest.fn(),
     boardStore: []
   };
