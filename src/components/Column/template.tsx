@@ -1,4 +1,3 @@
-
 import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import { Outside } from "../../common/outside";
 import { v4 as uuidv4 } from "uuid";
@@ -103,9 +102,6 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   const handleUpdate = (card: any) => {
- 
-  
-   
     props.updateCard(card, props.catkey);
   };
 
@@ -174,12 +170,10 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
 
   const content = addCard ? addListFrom() : addListButton();
 
-
-
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
       <div className="list-header">
-        <div className="list-header-contant">        
+        <div className="list-header-contant">
           <input
             className={titleEditble ? "list-header-field" : "list-header-title"}
             ref={wrapperRef}

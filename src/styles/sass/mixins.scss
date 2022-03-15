@@ -1,14 +1,14 @@
+@import "./variables.scss";
 @mixin button(){
 	background: transparent; 
 	font-size: 1.2em;
 	float: right;
 	outline: none;
-	color: white;
+	color: $white;
 	border: none;
 	cursor: pointer;
 }
-@mixin primary-button(){
-	
+@mixin primary-button(){	
 		align-items: center;
 		background-color: #091e420a;
 		border: none;

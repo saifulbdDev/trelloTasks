@@ -24,7 +24,7 @@ interface IBoardProps {
   createColumn?: (newColumn: string) => void;
   dateleColumn: (catId: string) => void;
   createCard?: (card: any, destinationCategory: string) => void;
-  draggableCard:(cardId: number, sourceCategory: string,) => void;
+  draggableCard: (cardId: number, sourceCategory: string) => void;
   boardStore: any;
 }
 

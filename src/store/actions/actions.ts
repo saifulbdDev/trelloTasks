@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import * as constants from "./actionTypes";
 
-import { read_cookie, bake_cookie } from "../../common/cookies";
+import { read_cookie, } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
 export const createColumn = (newColumn: string) => {
@@ -112,6 +112,7 @@ export const draggableOnCard = (
   catId: string,
   sourceCategory: string
 ) => {
+  // eslint-disable-next-line array-callback-return
   boardStore[sourceCategory].tasks.filter((card: any) => {
     if (card.id === catId) {
       // eslint-disable-next-line eqeqeq

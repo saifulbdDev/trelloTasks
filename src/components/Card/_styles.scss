@@ -9,7 +9,7 @@
   background-color: $white;
   padding: 0.65rem 0.6rem;
   color: #4d4d4d;
-  border-bottom: 0.1rem solid #ccc;
+  // border-bottom: 0.1rem solid #ccc;
   border-radius: 0.3rem;
   margin-bottom: 0.6rem;
   word-wrap: break-word;
@@ -34,7 +34,7 @@
     right: 0;
     left: auto;
     opacity: 0;
-    button{
+    button {
       margin-left: 0.5rem;
     }
   }
@@ -51,6 +51,13 @@
 .isDragged:hover {
   cursor: move;
   border: 1px dashed grey;
+}
+#notDragged {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .card-header {
