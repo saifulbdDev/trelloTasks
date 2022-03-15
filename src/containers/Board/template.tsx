@@ -24,7 +24,7 @@ interface IBoardProps {
   createColumn?: (newColumn: string) => void;
   dateleColumn: (catId: string) => void;
   createCard?: (card: any, destinationCategory: string) => void;
-
+  draggableCard:(cardId: number, sourceCategory: string,) => void;
   boardStore: any;
 }
 
@@ -60,6 +60,7 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
         moveCard={props.moveCard}
         createCard={props.createCard}
         updateCard={props.updateCard}
+        draggableCard={props.draggableCard}
         updateColumn={props.updateColumn}
         dateleColumn={props.dateleColumn}
         categoryTasks={category.tasks}

@@ -9,6 +9,7 @@ import {
   ADD_CARD,
   REMOVE_CARD,
   MOVE_CARD,
+  DRAGGABLE_CARD,
   RECEIVE_DATA,
   UPDATE_BOARD,
   CREATE_CARD,
@@ -36,6 +37,9 @@ const boardStore = (state = initialState.boardStore, action: any) => {
       boardStore = Object.assign([], state, action.boardStore);
       break;
     case REMOVE_CARD:
+      boardStore = Object.assign([], state, action.boardStore);
+      break;
+    case DRAGGABLE_CARD:
       boardStore = Object.assign([], state, action.boardStore);
       break;
     case MOVE_CARD:

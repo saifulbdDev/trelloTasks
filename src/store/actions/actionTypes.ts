@@ -3,6 +3,7 @@ export const COLUMN_UPDATE = 'COLUMN_UPDATE';
 export const REMOVE_COLUMN = 'REMOVE_COLUMN';
 export const ADD_CARD = 'ADD_CARD';
 export const MOVE_CARD = 'MOVE_CARD';
+export const DRAGGABLE_CARD = 'MOVE_CARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const UPDATE_BOARD = 'UPDATE_BOARD';

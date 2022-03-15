@@ -1,8 +1,9 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Outside } from "../../common/outside";
 import "./_styles.scss";
 import closeIcon from "../../styles/images/kindpng_2148901.png";
 interface ICardProps {
@@ -15,9 +16,12 @@ interface IColumnState {
 
 export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
   const [state, setState] = useState<IColumnState>(props);
+  const addlistRef = useRef(null);
   const [addList, setList] = React.useState<boolean>(false);
   const [listName, setNewname] = useState("");
   const [nameError, setError] = useState("");
+
+  Outside(addlistRef, () => setList(false));
 
   const titile = props.boardStore.length ? "Add another list" : "Add a list";
 
@@ -50,7 +54,7 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
   };
   const addListFrom = () => {
     return (
-      <div className={`addlist-from ` + (nameError ? "error-from" : "")}>
+      <div  className={`addlist-from ` + (nameError ? "error-from" : "")}>
         <input
           type="text"
           className="addlist-input"
@@ -81,6 +85,7 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
 
   return (
     <div
+    ref={addlistRef}
       className={`addlist-container list ` + (addList ? "" : "addlist-active")}
     >
       {content}

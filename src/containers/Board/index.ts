@@ -8,6 +8,7 @@ import {
   removeCardFromColumn,
   createCard,
   updateCard,
+  draggableCard,
 } from "../../store/actions/actions";
 import Board, { IAppState } from "./template";
 
@@ -46,6 +47,9 @@ const mapDispatchToProps = (dispatch: any) => {
 
     updateCard: (card: any, destinationCategory: string) => {
       dispatch(updateCard(card, destinationCategory));
+    },
+    draggableCard: (cardId: any, destinationCategory: string) => {
+      dispatch(draggableCard(cardId, destinationCategory));
     },
   };
 };

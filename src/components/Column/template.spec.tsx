@@ -13,6 +13,7 @@ describe("Column", () => {
     updateCard: jest.fn(),
     updateColumn: jest.fn(),
     dateleColumn: jest.fn(),
+    draggableCard: jest.fn(),
     removeCardFromColumn: jest.fn(),
   };
 

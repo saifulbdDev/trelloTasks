@@ -11,6 +11,7 @@ describe("Board", () => {
     fetchData: jest.fn(),
     moveCard: jest.fn(),
     updateCard: jest.fn(),
+    draggableCard: jest.fn(),
     updateColumn: jest.fn(),
     dateleColumn: jest.fn(),
     removeCardFromColumn: jest.fn(),

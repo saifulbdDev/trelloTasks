@@ -12,6 +12,7 @@ interface IColumnProps {
   categoryTasks: any;
   createCard: any;
   updateCard: (card: any, destinationCategory: string) => void;
+  draggableCard: (card_id: any, sourceCategory: string) => void;
   updateColumn: (upColumn: string, oldColumn: string) => void;
   dateleColumn: (catId: string) => void;
   moveCard: (
@@ -30,6 +31,7 @@ interface IColumnState {
 export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   const [state, setState] = useState<IColumnState>(props);
   const wrapperRef = useRef(null);
+  const addlistRef = useRef(null);
   const [newtext, setNewtext] = useState("");
   const categoryTasks = props.categoryTasks;
   const category = props.category ? props.category : "";
@@ -44,6 +46,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   Outside(wrapperRef, () => titileOnSave());
+  Outside(addlistRef, () => setAddcard(false));
 
   useEffect(() => {
     setState({
@@ -77,7 +80,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
   const handleAdd = () => {
     if (newtext) {
-      const new_task = { id: uuidv4(), text: newtext };
+      const new_task = { id: uuidv4(), text: newtext, draggable: true };
       const categoryTasks = [new_task, ...props.categoryTasks];
 
       setState({
@@ -100,10 +103,10 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   const handleUpdate = (card: any) => {
-    const new_task = card;
-    const categoryTasks = [new_task, ...props.categoryTasks];
-    setState({ ...state, categoryTasks: categoryTasks });
-    props.updateCard(new_task, props.category);
+ 
+  
+   
+    props.updateCard(card, props.catkey);
   };
 
   const handleOnDragOver = (event: any) => {
@@ -117,7 +120,8 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   const moveTask = (taskId: string, sourceCategory: string) => {
-    if (sourceCategory !== props.catkey) {
+    if (sourceCategory != props.catkey) {
+      console.log(sourceCategory !== props.catkey);
       props.moveCard(taskId, sourceCategory, props.catkey);
     }
   };
@@ -127,15 +131,17 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
       key={key}
       id={task.id}
       text={task.text}
+      draggable={task.draggable}
       category={props.catkey}
       removeCard={handleRemove}
       updateCard={handleUpdate}
+      draggableCard={props.draggableCard}
     />
   ));
 
   const addListFrom = () => {
     return (
-      <div className="add-from ">
+      <div className="add-from " ref={addlistRef}>
         <textarea
           placeholder="Enter a title for this card…"
           value={newtext}
@@ -167,6 +173,8 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   const content = addCard ? addListFrom() : addListButton();
+
+
 
   return (
     <div className="list" onDrop={handleOnDrop} onDragOver={handleOnDragOver}>
