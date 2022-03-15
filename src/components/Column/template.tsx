@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import { Outside } from "../../common/outside";
 import { v4 as uuidv4 } from "uuid";
