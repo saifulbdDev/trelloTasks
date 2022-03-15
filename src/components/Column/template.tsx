@@ -116,8 +116,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
   };
 
   const moveTask = (taskId: string, sourceCategory: string) => {
-    if (sourceCategory != props.catkey) {
-      console.log(sourceCategory !== props.catkey);
+    if (sourceCategory != props.catkey) {      
       props.moveCard(taskId, sourceCategory, props.catkey);
     }
   };
