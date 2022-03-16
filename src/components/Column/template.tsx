@@ -143,6 +143,11 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
           placeholder="Enter a title for this card…"
           value={newtext}
           onChange={textChange}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleAdd();
+            }
+          }}
         />
 
         <div className="cardfrom-btn-group">
