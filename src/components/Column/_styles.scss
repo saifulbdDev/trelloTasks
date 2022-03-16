@@ -125,15 +125,21 @@
           margin-right: 10px;
           @include primary-button;
           &:hover {
-            background-color: #055a8c;
+            background-color: #055a8c !important;
           }
         
         }
         .addcard-close {
           width: 14px;
           height: 14px;
+          opacity: 0.8;
+          color: #0000;
+          &:hover {
+            opacity: 1;
+          }
           img {
             max-width: 100%;
+            filter: grayscale(100%);
             vertical-align: baseline;
           }
         }
