@@ -51,7 +51,6 @@ export const Card: React.FC<ICardProps> = (props) => {
   };
 
   const handleOnDragStart = (ev: any, id: number) => {
-    console.log(id);
     ev.dataTransfer.setData("id", id);
     ev.dataTransfer.setData("sourceCategory", props.category);
     setIsDragged(true);

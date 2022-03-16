@@ -62,7 +62,7 @@ export const Column: React.FC<IColumnProps & IColumnState> = (props) => {
     setTitleEditble(false);
 
     if (updateTitle !== category.title && updateTitle !== "") {
-      console.log("updateTitle", updateTitle);
+     
       props.updateColumn(updateTitle, category.id);
     } else {
       setTitle(category.title);

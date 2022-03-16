@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import * as constants from "./actionTypes";
 
-import { read_cookie, } from "../../common/cookies";
+import { read_cookie } from "../../common/cookies";
 import { BOARD_COOKIE } from "../../common/constants";
 
 export const createColumn = (newColumn: string) => {
@@ -73,28 +73,18 @@ export const createCard = (newCard: any, destinationCategory: string) => {
 export const updateCard = (card: any, destinationCategory: string) => {
   return (dispatch: any, getState: any) => {
     const boardStore = getState().boardStore;
-  
+
     dispatch(updateOldCard(boardStore, card, destinationCategory));
-   
   };
 };
-export const updateOldCard = (
-  boardStore: any,
-  card: any,
-  catId: string
-) => {
-
- 
-   boardStore[catId].tasks.map((obj: { text:string, id: string }) => {
+export const updateOldCard = (boardStore: any, card: any, catId: string) => {
+  boardStore[catId].tasks.map((obj: { text: string; id: string }) => {
     if (obj.id === card.id) {
       obj.text = card.title;
-     
     }
 
     return obj;
   });
-
-  console.log(boardStore, "card", catId, "catId");
 
   return {
     type: constants.UPDATE_CARD,
@@ -116,9 +106,7 @@ export const draggableOnCard = (
   boardStore[sourceCategory].tasks.filter((card: any) => {
     if (card.id === catId) {
       // eslint-disable-next-line eqeqeq
-      card.draggable  =  !card.draggable;
-   
-     
+      card.draggable = !card.draggable;
     }
   });
 
@@ -188,7 +176,6 @@ export const removeCard = (
   sourceCategory: string
 ) => {
   if (boardStore) {
-    console.log(boardStore, cardId, sourceCategory, "removeCard");
     boardStore[sourceCategory].tasks = boardStore[sourceCategory].tasks.filter(
       (card: any) => {
         return card.id !== cardId;
