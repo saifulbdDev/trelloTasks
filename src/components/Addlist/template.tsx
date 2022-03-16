@@ -39,28 +39,31 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
   const handleAdd = () => {
     if (listName == "") {
     } else {
+      const new_column = { id: uuidv4(), title: listName, tasks: [] };
+      const boardStore = [new_column, ...props.boardStore];
 
-     const new_column  =  {id: uuidv4(), title: listName, tasks: [] }
-     const boardStore = [new_column, ...props.boardStore];
-    
-
-     setState({
-       ...state,     
-       boardStore: boardStore,
-     });
+      setState({
+        ...state,
+        boardStore: boardStore,
+      });
       props.createColumn(new_column);
-      setNewname('');
+      setNewname("");
     }
   };
   const addListFrom = () => {
     return (
-      <div  className={`addlist-from ` + (nameError ? "error-from" : "")}>
+      <div className={`addlist-from ` + (nameError ? "error-from" : "")}>
         <input
           type="text"
           className="addlist-input"
           placeholder="Enter list title…"
           onChange={nameChange}
           value={listName}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleAdd();
+            }
+          }}
         />
         <div className="error-text">{nameError}</div>
         <div className="addlist-from-btn-group">
@@ -85,7 +88,7 @@ export const Addlist: React.FC<ICardProps & IColumnState> = (props) => {
 
   return (
     <div
-    ref={addlistRef}
+      ref={addlistRef}
       className={`addlist-container list ` + (addList ? "" : "addlist-active")}
     >
       {content}
