@@ -31,7 +31,7 @@ const boardStore = (state = initialState.boardStore, action: any) => {
       boardStore = Object.assign([], state, action.boardStore);
       break;
     case REMOVE_COLUMN:
-      boardStore = Object.assign([], action.boardStore);
+      boardStore = Object.assign([], state, action.boardStore);
       break;
     case ADD_CARD:
       boardStore = Object.assign([], state, action.boardStore);

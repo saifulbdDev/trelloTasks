@@ -53,7 +53,7 @@ export const Board: React.FC<IBoardProps & IBoardState> = (
   const columns = boardStoreList.map((category: any, key: number) => {
     return (
       <Column
-        key={key}
+        key={category.id}
         catkey={key}
         category={category}
         removeCardFromColumn={props.removeCardFromColumn}
